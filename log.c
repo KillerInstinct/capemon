@@ -402,9 +402,15 @@ static void log_variant(VARIANT* var) {
 			case VT_R8 | VT_BYREF:
 				log_int64((int64_t)*var->pdblVal);
 				break;
+			case VT_NULL:
+				log_string("", 0);
+				break;
+			case VT_NULL | VT_BYREF:
+				log_string("", 0);
+				break;
 			default:
 				snprintf(log_msg, 32, "Unhandled VARIANT Type: %hu", var->vt);
-				log_string((const char*)var->vt, -1);
+				log_string(log_msg, -1);
 				break;
 		}
 	}

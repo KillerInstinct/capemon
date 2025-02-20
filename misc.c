@@ -303,9 +303,8 @@ wchar_t* wcsistr(wchar_t* haystack, const wchar_t* needle) {
 
 void perform_device_fakery(PVOID OutputBuffer, ULONG OutputBufferLength, ULONG IoControlCode)
 {
-	/* Fake harddrive size to 256GB */
 	if (OutputBufferLength >= sizeof(GET_LENGTH_INFORMATION) && IoControlCode == IOCTL_DISK_GET_LENGTH_INFO) {
-		((PGET_LENGTH_INFORMATION)OutputBuffer)->Length.QuadPart = 256060514304L;
+		((PGET_LENGTH_INFORMATION)OutputBuffer)->Length.QuadPart = SPOOFED_DISK_SIZE;
 	}
 
 	if (OutputBufferLength >= sizeof(DISK_GEOMETRY) && IoControlCode == IOCTL_DISK_GET_DRIVE_GEOMETRY) {
@@ -323,7 +322,7 @@ void perform_device_fakery(PVOID OutputBuffer, ULONG OutputBufferLength, ULONG I
 		geo->Geometry.BytesPerSector = 512;
 		geo->Geometry.SectorsPerTrack = 63;
 		if (OutputBufferLength >= (sizeof(DISK_GEOMETRY) + sizeof(LARGE_INTEGER)))
-			geo->DiskSize.QuadPart = 256060514304L;
+			geo->DiskSize.QuadPart = SPOOFED_DISK_SIZE;
 	}
 
 	/* fake model name */
