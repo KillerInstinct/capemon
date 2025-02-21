@@ -700,10 +700,9 @@ BOOL APIENTRY DllMain(HANDLE hModule, DWORD dwReason, LPVOID lpReserved)
 
 #ifndef _WIN64
 		if (!g_config.no_stealth) {
-			/* for people too lazy to setup VMs properly */
 			PEB *peb = get_peb();
-			if (peb->NumberOfProcessors == 1)
-				peb->NumberOfProcessors = 2;
+			if (peb->NumberOfProcessors == SPOOFED_CPU_CORE_NUM)
+				peb->NumberOfProcessors = SPOOFED_CPU_CORE_NUM;
 		}
 #endif
 
